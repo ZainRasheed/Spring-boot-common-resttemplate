@@ -1,4 +1,4 @@
-package com.example.vcsAutocorrectDemo;
+package com.example.vcsAutocorrectDemo.controller;
 
 import com.example.vcsAutocorrectDemo.props.EndpointInfo;
 import com.example.vcsAutocorrectDemo.servers.impl.HttpEndpointImpl;
@@ -22,8 +22,8 @@ public class MerchantController {
 
     private HttpEndpointImpl httpEndpoint = new HttpEndpointImpl(merchantEndpointInfo);
 
-    @GetMapping("/get/(contractId)")
-    public Object getMerchant(@PathVariable (value = "contractId") String contractId) {
+    @GetMapping("/get/{contractId}")
+    public Object getMerchant(@PathVariable(value = "contractId") String contractId) {
         return httpEndpoint.get(
                 getCreatedURL(merchantEndpointInfo, SLASH + contractId),
                 prepareHeaders(merchantEndpointInfo.getAuthToken()),
@@ -44,5 +44,25 @@ public class MerchantController {
                 prepareHeaders(merchantEndpointInfo.getAuthToken()),
                 null,
                 new ParameterizedTypeReference<Object>() {});
+    }
+
+    @PatchMapping("/patch/{contractUid}")
+    public Object patchMerchant(@RequestBody Object patchedData, @PathVariable(name = "contractUid") String contractUid) {
+        return httpEndpoint.patch(
+                getCreatedURL(merchantEndpointInfo, SLASH + contractUid),
+                prepareHeaders(merchantEndpointInfo.getAuthToken()),
+                null,
+                patchedData,
+                Object.class);
+    }
+
+    @PatchMapping("/patch/settlementInfo/{contractId}")
+    public Object patchMerchantSettlementData(@RequestBody Object patchedData, @PathVariable("contractId") String contractId) {
+        return httpEndpoint.patch(
+                getCreatedURL(merchantEndpointInfo, SLASH + contractId + SLASH + "settlement"),
+                prepareHeaders(merchantEndpointInfo.getAuthToken()),
+                null,
+                patchedData,
+                Object.class);
     }
 }

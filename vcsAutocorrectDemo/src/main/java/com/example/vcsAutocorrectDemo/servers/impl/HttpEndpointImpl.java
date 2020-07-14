@@ -92,7 +92,7 @@ public class HttpEndpointImpl implements IHttpEndpoint {
         if (nonNull(headers)) {
             headers.forEach(request.getHeaders()::add);
         }
-        if (nonNull(parameterizedResponseType)) {
+        if (nonNull(pathParameters)) {
             request.getPathParameters().putAll(pathParameters);
         }
         return request;

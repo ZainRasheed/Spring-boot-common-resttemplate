@@ -1,4 +1,4 @@
-package com.example.vcsAutocorrectDemo;
+package com.example.vcsAutocorrectDemo.controller;
 
 import com.example.vcsAutocorrectDemo.props.EndpointInfo;
 import com.example.vcsAutocorrectDemo.servers.impl.HttpEndpointImpl;
@@ -26,7 +26,7 @@ public class AcquirerController {
     }
 
     @PatchMapping("/patch/{acquirerId}")
-    public Object patchEntity(@RequestBody Object PatchedData, @PathVariable String acquirerId) {
+    public Object patchEntity(@RequestBody Object PatchedData, @PathVariable(name = "acquirerId") String acquirerId) {
         return httpEndpoint.patch(
                 getCreatedURL(entityServiceEndpoint, SLASH + acquirerId),
                 prepareHeaders(entityServiceEndpoint.getAuthToken()),
